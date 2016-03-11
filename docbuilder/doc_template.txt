@@ -1,0 +1,44 @@
+/**
+* @method run
+* @author ninjava
+* @param file_name-string
+*/
+def run( file_name ):
+    open_dist( file_name )     
+
+/**
+* @method open_dist
+* @author ninjava
+* @param file_name-string
+* @description opens file with content you want to documented
+*/
+def open_dist( file_name ):
+    try:
+        with open( file_name, 'r' ) as f:
+            f_lines = list( f )
+            detect_doc_block( f_lines )
+    except IOError as e:
+       print 'Unable to open file. File does not exist or no read permissions'
+
+/**
+* @method detect_doc_block
+* @author ninjava
+* @param f_content-list
+*/        
+def detect_doc_block( f_content ):
+    iterable_list = iter( f_content )
+    doc_blocks    = list()
+    
+    for line in iterable_list:
+        if line.startswith( '/*' ):
+            l = line
+            doc_blocks.append( format_output( l ) )
+            while not l.startswith( '*/' ):
+                l = next( iterable_list )
+                doc_blocks.append( format_output( l ) )
+
+            #get_doc_block( doc_blocks )
+            detect_keywords( doc_blocks )
+            doc_blocks = []
+            
+    fill_html_doc()
