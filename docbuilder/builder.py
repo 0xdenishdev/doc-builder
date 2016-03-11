@@ -38,12 +38,6 @@ def detect_doc_block( f_content ):
 def format_output( content ):
     return content.split( '\n' )[0]
 
-# debug method
-#---------------------------------
-def get_doc_block( doc_block ):
-    for doc_line in doc_block:
-        print doc_line
-#---------------------------------
     
 def detect_keywords( f_content ):
     # count of doc blocks in file
@@ -51,8 +45,6 @@ def detect_keywords( f_content ):
     global html_doc_block
     doc_data_block = []
     block_counter  = block_counter + 1
-    
-    #doc_tags = ['@author', '@method', '@description', '@param']
 
     for line in f_content:
         doc_line_list = line.split()
@@ -73,7 +65,6 @@ def fill_html_doc():
     raw_tags  = ["<html>", "<head>", "<body>", "<p>|"]
     full_tags = generate_endings( raw_tags )
 
-    #doc_type, head, body, content = full_tags
     html_content = ''
     for depth in range( 0, 2 ):
         for index in range( len( full_tags ) ):
@@ -89,9 +80,9 @@ def fill_html_doc():
 
             # appends doc type
             html_doc_data += '<h3>' + doc[1] + '</h3>'
-
             # appends doc content
             html_doc_data += '<pre>' + doc[2] + '</pre>'
+            
         html_doc_data += '<hr />'
         
     html_content = append_doc( html_doc_data, html_content )
