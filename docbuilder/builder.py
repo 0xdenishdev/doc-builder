@@ -7,9 +7,12 @@ block_counter  = 0
 html_doc_block = {}
 
 def run( file_name ):
+    """ main function that runs the module """
     open_dist( file_name )     
 
 def open_dist( file_name ):
+    """ opens file with the content,
+        which will be documented """
     try:
         with open( file_name, 'r' ) as f:
             f_lines = list( f )
@@ -18,6 +21,8 @@ def open_dist( file_name ):
        print 'Unable to open file. File does not exist or no read permissions'
         
 def detect_doc_block( f_content ):
+    """ detects code block, which is surrounded
+        with symbols /**/ and will be documented """
     iterable_list = iter( f_content )
     doc_blocks    = list()
     
@@ -36,10 +41,13 @@ def detect_doc_block( f_content ):
     fill_html_doc()
     
 def format_output( content ):
+    """ returns formatted content string """
     return content.split( '\n' )[0]
 
     
 def detect_keywords( f_content ):
+    """ detects keywords in code block, which is surrounded
+        with symbols /**/ and will be documented """
     # count of doc blocks in file
     global block_counter
     global html_doc_block
@@ -56,12 +64,13 @@ def detect_keywords( f_content ):
         html_doc_block[block_counter] = doc_data_block
         
 def fill_html_doc():
+    """ generates html file with documented content """
     #print html_doc_block
     doc_name      = 'pydoc.html'
     html          = open( doc_name, 'w+' )
     html_doc_path = os.path.abspath( doc_name )
 
-    # html doc
+    # basic html tags
     raw_tags  = ["<html>", "<head>", "<body>", "<p>|"]
     full_tags = generate_endings( raw_tags )
 
@@ -93,10 +102,12 @@ def fill_html_doc():
     webbrowser.open_new_tab( html_doc_path )
 
 def append_doc( doc, html_content ):
+    """ appends documented block to document's body """
     i = html_content.index( '|' )
     return ( html_content[:i] + doc + html_content[i:] ).replace( '|', '' )
 
 def generate_endings( tags ):
+    """ generates the endings of basic html tags """
     endings = list()
     for tag in tags:
         ending = tag[:1] + '/' + tag[1:]
