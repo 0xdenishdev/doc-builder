@@ -72,7 +72,7 @@ def fill_html_doc( f_doc_name ):
     html_doc_path = os.path.abspath( doc_name )
 
     # basic html tags
-    raw_tags  = ["<html>", "<head>", "<body>", "<p>|"]
+    raw_tags  = [ "<html>", "<head>", "<body>", "<p>|" ]
     full_tags = generate_endings( raw_tags )
 
     html_content = ''
