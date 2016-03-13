@@ -8,7 +8,10 @@ html_doc_block = {}
 
 def run( file_name ):
     """ main function that runs the module """
-    open_dist( file_name )
+    if isinstance( file_name, str ):
+        open_dist( file_name )
+    else:
+        print 'Unable to open file. String name required'
 
 def open_dist( file_name ):
     """ opens file with the content,
