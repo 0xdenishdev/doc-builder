@@ -2,13 +2,13 @@ import os
 import webbrowser
 
 # doc blocks in file
-# you want to documented
+# which will be documented
 block_counter  = 0
 html_doc_block = {}
 
 def run( file_name ):
     """ main function that runs the module """
-    open_dist( file_name )     
+    open_dist( file_name )
 
 def open_dist( file_name ):
     """ opens file with the content,
@@ -16,11 +16,11 @@ def open_dist( file_name ):
     try:
         with open( file_name, 'r' ) as f:
             f_lines = list( f )
-            detect_doc_block( f_lines )
+            detect_doc_block( f_lines, file_name )
     except IOError as e:
        print 'Unable to open file. File does not exist or no read permissions'
         
-def detect_doc_block( f_content ):
+def detect_doc_block( f_content, f_name ):
     """ detects code block, which is surrounded
         with symbols /**/ and will be documented """
     iterable_list = iter( f_content )
@@ -38,12 +38,7 @@ def detect_doc_block( f_content ):
             detect_keywords( doc_blocks )
             doc_blocks = []
             
-    fill_html_doc()
-    
-def format_output( content ):
-    """ returns formatted content string """
-    return content.split( '\n' )[0]
-
+    fill_html_doc( f_name )
     
 def detect_keywords( f_content ):
     """ detects keywords in code block, which is surrounded
@@ -63,10 +58,13 @@ def detect_keywords( f_content ):
             
         html_doc_block[block_counter] = doc_data_block
         
-def fill_html_doc():
+def fill_html_doc( f_doc_name ):
     """ generates html file with documented content """
-    #print html_doc_block
-    doc_name      = 'pydoc.html'
+    # creates directory with generated docs
+    make_doc_dir()
+    
+    dest_doc      = f_doc_name.split( '.' )[0]   
+    doc_name      = dest_doc + '_doc.html'
     html          = open( doc_name, 'w+' )
     html_doc_path = os.path.abspath( doc_name )
 
@@ -99,6 +97,8 @@ def fill_html_doc():
     html.write( html_content )
     html.close()
 
+    go_to_base_dir()
+    
     webbrowser.open_new_tab( html_doc_path )
 
 def append_doc( doc, html_content ):
@@ -122,3 +122,28 @@ def generate_endings( tags ):
     
     return zip( tags, endings )
 
+    
+def format_output( content ):
+    """ returns formatted content string """
+    return content.split( '\n' )[0]
+
+def make_doc_dir():
+    """ creates destination directory with generated docs """
+    dir_path = os.path.dirname( __file__ ) + '/docs'
+    
+    if not os.path.exists( dir_path ):
+        try:
+            os.makedirs( dir_path )
+            print 'Directory with generated docs has been successfully created.'
+        except OSError as e:
+            print 'Unable to create directory.'
+    else:
+        print 'Directory already exists. Changing path...'
+    
+    os.chdir( dir_path )
+
+def go_to_base_dir():
+    """ goes back to base directory """
+    base_path = os.path.dirname( __file__ )
+    os.chdir( base_path )
+    
