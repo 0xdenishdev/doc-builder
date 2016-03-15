@@ -1,18 +1,18 @@
-/**
-* @method run
-* @author ninjava
-* @param file_name-string
-*/
 def run( file_name ):
-    open_dist( file_name )     
+    """
+        @method run
+        @author ninjava
+        @param file_name-string
+    """
+    open_dist( file_name )
 
-/**
-* @method open_dist
-* @author ninjava
-* @param file_name-string
-* @description opens file with content you want to documented
-*/
 def open_dist( file_name ):
+    """
+        @method open_dist
+        @author ninjava
+        @param file_name-string
+        @description opens file with content you want to documented
+    """
     try:
         with open( file_name, 'r' ) as f:
             f_lines = list( f )
@@ -20,12 +20,12 @@ def open_dist( file_name ):
     except IOError as e:
        print 'Unable to open file. File does not exist or no read permissions'
 
-/**
-* @method detect_doc_block
-* @author ninjava
-* @param f_content-list
-*/        
 def detect_doc_block( f_content ):
+    """
+        @method detect_doc_block
+        @author ninjava
+        @param f_content-list
+    """
     iterable_list = iter( f_content )
     doc_blocks    = list()
     
