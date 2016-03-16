@@ -27,7 +27,7 @@ def open_dist( file_name ):
             f_lines = list( f )
             f_lines = map( lambda l: l.strip( ' \t\n\r' ), f_lines )
             detect_doc_block( f_lines, file_name )
-    except IOError as e:
+    except IOError:
        print 'Unable to open file. File does not exist or no read permissions'
 
 def detect_doc_block( f_content, f_name ):
@@ -108,7 +108,7 @@ def fill_html_doc( f_doc_name ):
     html_doc_path = os.path.abspath( doc_name )
 
     # basic html tags
-    raw_tags  = [ "<html>", "<head>", "<body>", "<p>|" ]
+    raw_tags  = ["<html>", "<head>", "<body>", "<p>|"]
     full_tags = generate_endings( raw_tags )
 
     html_content = ''
@@ -153,9 +153,9 @@ def create_doc_line( content ):
 def append_doc( doc, html_content ):
     """
     appends documented block to document's body
-    :param doc:
-    :param html_content:
-    :return:
+    :param doc:string
+    :param html_content:string
+    :return html doc with appended doc block:string
     """
     i = html_content.index( '|' )
     return ( html_content[:i] + doc + html_content[i:] ).replace( '|', '' )
